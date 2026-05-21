@@ -1,0 +1,29 @@
+# Rails runtime files
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+
+# Local SQLite databases and uploaded files
+/storage/*.sqlite3
+/storage/*.sqlite3-*
+/storage/*
+!/storage/.keep
+
+# Secrets and local credentials
+/config/master.key
+/config/credentials/*.key
+
+# Local editor and tool state
+/.ruby-lsp/
+/.vscode/
+/.idea/
+
+# Bundler and environment files
+/.bundle/
+/.env
+/.env.*
+
+# OS files
+.DS_Store
+Thumbs.db
