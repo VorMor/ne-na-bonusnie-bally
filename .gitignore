@@ -23,6 +23,7 @@
 /.bundle/
 /.env
 /.env.*
+!/.env.production.example
 
 # OS files
 .DS_Store

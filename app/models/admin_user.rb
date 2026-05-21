@@ -13,14 +13,23 @@ class AdminUser < ApplicationRecord
   validates :role, inclusion: { in: ROLES.keys }
 
   def self.ensure_default_admin!
-    find_or_initialize_by(email: "admin@example.ru").tap do |admin|
-      admin.password = "password123"
-      admin.password_confirmation = "password123"
+    email = ENV.fetch("ADMIN_EMAIL", "admin@example.ru")
+    password = ENV["ADMIN_PASSWORD"].presence || default_development_password
+
+    find_or_initialize_by(email: email).tap do |admin|
+      admin.password = password
+      admin.password_confirmation = password
       admin.full_name = "Администратор проекта"
       admin.role = "admin"
       admin.active = true
       admin.save!
     end
+  end
+
+  def self.default_development_password
+    raise "ADMIN_PASSWORD is required in production" if Rails.env.production?
+
+    "password123"
   end
 
   def admin?

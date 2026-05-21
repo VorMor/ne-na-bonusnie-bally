@@ -1,0 +1,4 @@
+24vormor.ru, www.24vormor.ru {
+  encode gzip zstd
+  reverse_proxy app:80
+}
