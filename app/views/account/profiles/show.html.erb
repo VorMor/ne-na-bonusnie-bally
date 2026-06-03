@@ -8,7 +8,10 @@
       <p class="muted-text"><%= current_user.email %></p>
     </div>
 
-    <%= link_to "Публичная страница", user_path(current_user), class: "primary-button" %>
+    <div class="table-actions">
+      <%= link_to "Мои рецепты", account_recipes_path, class: "primary-button" %>
+      <%= link_to "Публичная страница", user_path(current_user), class: "secondary-button" %>
+    </div>
   </div>
 
   <% if current_user.bio.present? %>

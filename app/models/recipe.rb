@@ -7,6 +7,8 @@ class Recipe < ApplicationRecord
     "hard" => "Сложно"
   }.freeze
 
+  attr_writer :ingredients_text
+
   slug_from :title
 
   belongs_to :category
@@ -68,6 +70,32 @@ class Recipe < ApplicationRecord
 
   def difficulty_name
     DIFFICULTIES.fetch(difficulty)
+  end
+
+  def ingredients_text
+    @ingredients_text ||= recipe_ingredients.includes(:ingredient).map do |item|
+      amount = item.amount&.to_f&.then { |value| value == value.to_i ? value.to_i : value }
+      [ item.ingredient.name, amount, item.unit.presence, item.note.presence ].compact_blank.join(" | ")
+    end.join("\n")
+  end
+
+  def apply_ingredients_text!(raw_text)
+    @ingredients_text = raw_text
+    parsed_rows = RecipeIngredientParser.new(raw_text).rows
+
+    transaction do
+      recipe_ingredients.destroy_all
+
+      parsed_rows.each do |row|
+        ingredient = Ingredient.find_or_create_by!(name: row[:name])
+        recipe_ingredients.create!(
+          ingredient: ingredient,
+          amount: row[:amount],
+          unit: row[:unit],
+          note: row[:note]
+        )
+      end
+    end
   end
 
   def owned_by?(candidate_user)
