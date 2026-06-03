@@ -10,6 +10,7 @@ porridge:
   published: true
   views_count: 3
   category: breakfast
+  user: anna
 
 hidden_soup:
   title: Черновик супа
@@ -23,3 +24,4 @@ hidden_soup:
   published: false
   views_count: 0
   category: soups
+  user: boris
