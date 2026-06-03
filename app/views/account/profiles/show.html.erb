@@ -1,0 +1,28 @@
+<% content_for :title, "Личный кабинет" %>
+
+<section class="admin-panel">
+  <div class="profile-header">
+    <div>
+      <p class="eyebrow">Личный кабинет</p>
+      <h1><%= current_user.full_name %></h1>
+      <p class="muted-text"><%= current_user.email %></p>
+    </div>
+
+    <%= link_to "Публичная страница", user_path(current_user), class: "primary-button" %>
+  </div>
+
+  <% if current_user.bio.present? %>
+    <p class="profile-bio"><%= current_user.bio %></p>
+  <% end %>
+
+  <div class="stat-grid">
+    <div>
+      <strong><%= @recipes_count %></strong>
+      <span>созданных рецептов</span>
+    </div>
+    <div>
+      <strong><%= @favorites_count %></strong>
+      <span>избранных рецептов</span>
+    </div>
+  </div>
+</section>
